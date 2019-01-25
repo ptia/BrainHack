@@ -16,7 +16,7 @@ Comes with **python assembler**.
 
 ## Implementation
 - Harvard, RISC architecture
-- 2 clock transitions per instruction (run & fetch happen in parallell!)
+- 1 clock transitions per instruction (run & fetch happen in parallell!)
 - programs: ROM of 3-bit instructions
 - tape: RAM + head address register
 - [] call stack: RAM + tos address register
