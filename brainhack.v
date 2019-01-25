@@ -48,10 +48,10 @@ module brainhack (i_clock, i_tape_data, i_prgmem_data, i_stack_data,
 
   // IR
   wire [`instr_width - 1 : 0] instr = i_prgmem_data;
-  wire instr_tape    = instr[2 : 1] == 2'b01; //+-
-  wire instr_ptr     = instr[2 : 1] == 2'b10; //><
-  wire instr_stack   = instr[2 : 1] == 2'b11; //[]
-  wire instr_dec     = instr[0];              //+>[ vs -<]
+  wire instr_tape    = i_prgmem_data[2 : 1] == 2'b01; //+-
+  wire instr_ptr     = i_prgmem_data[2 : 1] == 2'b10; //><
+  wire instr_stack   = i_prgmem_data[2 : 1] == 2'b11; //[]
+  wire instr_dec     = i_prgmem_data[0];              //+>[ vs -<]
   wire instr_inc     = !instr_dec;
 
   // PC
