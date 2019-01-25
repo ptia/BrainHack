@@ -28,6 +28,16 @@ module brainhack (i_clock, i_tape_data, i_prgmem_data, i_stack_data,
   output wire [`prgmem_addr_width - 1 : 0] o_stack_data;
 
 // CONTROL
+  // IR
+  wire [`instr_width - 1 : 0] instr = i_prgmem_data;
+  wire instr_tape    = i_prgmem_data[2 : 1] == 2'b01; //+-
+  wire instr_ptr     = i_prgmem_data[2 : 1] == 2'b10; //><
+  wire instr_stack   = i_prgmem_data[2 : 1] == 2'b11; //[]
+  wire instr_dec     = i_prgmem_data[0];              //+>[ vs -<]
+  wire instr_inc     = !instr_dec;
+
+  wire zero = !(|i_tape_data);
+
   // SKIP LOOPS
   reg ctrl_skip_loop = 0;
   reg [`stack_addr_width : 0] reg_skip_loop_sp;
@@ -41,30 +51,13 @@ module brainhack (i_clock, i_tape_data, i_prgmem_data, i_stack_data,
       ctrl_skip_loop <= 1;
     end
   end
-    
-  // ZERO
-  wire zero;
-  assign zero = !(|i_tape_data);
-
-  // IR
-  wire [`instr_width - 1 : 0] instr = i_prgmem_data;
-  wire instr_tape    = i_prgmem_data[2 : 1] == 2'b01; //+-
-  wire instr_ptr     = i_prgmem_data[2 : 1] == 2'b10; //><
-  wire instr_stack   = i_prgmem_data[2 : 1] == 2'b11; //[]
-  wire instr_dec     = i_prgmem_data[0];              //+>[ vs -<]
-  wire instr_inc     = !instr_dec;
 
   // PC
   register #(`prgmem_addr_width) reg_pc (i_clock, 1'b1, pc_in, o_prgmem_addr);
-  inc #(`prgmem_addr_width) pc_inc (o_prgmem_addr, pc_inc_res);
+  inc_dec #(`prgmem_addr_width) pc_inc (1'b0, o_prgmem_addr, pc_inc_res);
   wire [`prgmem_addr_width - 1 : 0] pc_inc_res;
   wire [`prgmem_addr_width - 1 : 0] pc_in = ctrl_pc_in_select ? i_stack_data : pc_inc_res;
   wire ctrl_pc_in_select = !ctrl_skip_loop && instr_stack && instr_dec && !zero;
-
-  // STACK
-  assign o_stack_data = pc_inc_res;
-  assign o_stack_in = instr_stack && instr_inc;
-  assign o_stack_addr = instr_inc ? sp_inc_dec_res : sp_data;
 
   // SP
   inc_dec #(`stack_addr_width) sp_inc_dec (instr_dec, sp_data, sp_inc_dec_res);
@@ -72,6 +65,11 @@ module brainhack (i_clock, i_tape_data, i_prgmem_data, i_stack_data,
   wire [`stack_addr_width - 1 : 0] sp_data;
   wire [`stack_addr_width - 1 : 0] sp_inc_dec_res;
   wire ctrl_sp_in = instr_stack && (instr_inc || instr_dec && zero);
+
+  // STACK
+  assign o_stack_data = pc_inc_res;
+  assign o_stack_in = instr_stack && instr_inc;
+  assign o_stack_addr = instr_inc ? sp_inc_dec_res : sp_data;
 
 
 // USER
