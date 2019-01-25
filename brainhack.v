@@ -1,7 +1,6 @@
 `include "inc_dec.v"
 `include "register.v"
 `include "memory.v"
-`include "clock_divider.v"
 
 `default_nettype none
 
