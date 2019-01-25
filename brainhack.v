@@ -5,7 +5,8 @@
 
 `default_nettype none
 
-`define instr_width 8
+`define instr_width       4 //4-bit instructions
+
 `define tape_data_width   8 //8-bit tape cells
 `define tape_addr_width   8 //tape length: 256
 `define prgmem_addr_width 8 //prog length: 256
@@ -33,14 +34,14 @@ module brainhack (i_clock, i_tape_data, i_prgmem_data, i_stack_data,
 
 
 // CONTROL
-  wire ctrl_tape_in, ctrl_ptr_in, ctrl_stack_out, ctrl_sp_in, ctrl_stack_in, ctrl_inc_dec, ctrl_pc_in;
+  wire ctrl_tape_in, ctrl_ptr_in, ctrl_stack_op, ctrl_sp_in, ctrl_inc_dec, ctrl_pc_in;
   wire zero;
   assign zero = !(|i_tape_data);
 
   // IR
   wire [`instr_width - 1 : 0] instr;
   register #(`instr_width) reg_ir (i_clock, fetch && i_clock, i_prgmem_data, instr);
-  assign {ctrl_tape_in, ctrl_ptr_in, ctrl_stack_in, ctrl_stack_out, ctrl_inc_dec} = instr [4 : 0];
+  assign {ctrl_tape_in, ctrl_ptr_in, ctrl_stack_op, ctrl_inc_dec} = instr;
 
   // PC
   tri [`prgmem_addr_width - 1 : 0] pc_in;
@@ -48,19 +49,19 @@ module brainhack (i_clock, i_tape_data, i_prgmem_data, i_stack_data,
   assign pc_in = run ? i_stack_data : pc_inc_res;
   inc #(`prgmem_addr_width) pc_inc (o_prgmem_addr, pc_inc_res);
   register #(`prgmem_addr_width) reg_pc (i_clock, ctrl_pc_in, pc_in, o_prgmem_addr);
-  assign ctrl_pc_in = (run && !i_clock && ctrl_stack_out && !zero) || (fetch && !i_clock);
+  assign ctrl_pc_in = (run && !i_clock && ctrl_stack_op && ctrl_inc_dec && !zero) || (fetch && !i_clock);
 
   // STACK
   //wire [`prgmem_addr_width - 1 : 0] pc_dec_res;
   //dec #(`prgmem_addr_width) pc_dec (o_prgmem_addr, pc_dec_res);
   assign o_stack_data = o_prgmem_addr;
-  assign o_stack_in = run && i_clock && ctrl_stack_in ;
+  assign o_stack_in = run && i_clock && ctrl_stack_op && !ctrl_inc_dec;
 
   // SP
   wire [`stack_addr_width - 1 : 0] sp_in;
   inc_dec #(`stack_addr_width) sp_inc_dec (ctrl_inc_dec, o_stack_addr, sp_in);
   register #(`stack_addr_width) reg_sp (i_clock, ctrl_sp_in, sp_in, o_stack_addr);
-  assign ctrl_sp_in = run && (ctrl_stack_in || ctrl_stack_out) && ((!i_clock && ctrl_stack_in) || (i_clock && ctrl_stack_out && zero));
+  assign ctrl_sp_in = run && ctrl_stack_op && ((!i_clock && !ctrl_inc_dec) || (i_clock && ctrl_inc_dec && zero));
 
 
 // USER
@@ -99,11 +100,16 @@ module testbench;
   initial begin
     tape.ram_content[0] = 0;
     prgmem.rom_content[1] = 0;
-    prgmem.rom_content[2] = 8'b00000100; // [
+    prgmem.rom_content[2] = 4'b0010;
+    prgmem.rom_content[3] = 4'b1001;
+    prgmem.rom_content[4] = 4'b0011;
+    prgmem.rom_content[5] = 4'b0000;
+
+    /*prgmem.rom_content[2] = 8'b00000100; // [
     prgmem.rom_content[3] = 8'b00000100; // [
     prgmem.rom_content[4] = 8'b00010001; // -
     prgmem.rom_content[5] = 8'b00000011; // ]
-    prgmem.rom_content[6] = 8'b00000011; // ]
+    prgmem.rom_content[6] = 8'b00000011; // ] */
 
     //prgmem.rom_content[3] = 8'b00001000; // > ptr_in
 
