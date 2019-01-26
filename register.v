@@ -6,7 +6,7 @@ module register (i_clock, i_enable_in, i_data, o_data);
   input wire [c_width - 1 : 0] i_data;
   output wire [c_width - 1 : 0] o_data;
 
-  reg [c_width - 1 : 0] stored_data;
+  reg [c_width - 1 : 0] stored_data = 0;
   assign o_data = stored_data;
 
   always @ (posedge i_clock or negedge i_clock)
