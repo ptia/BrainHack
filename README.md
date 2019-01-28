@@ -1,10 +1,11 @@
 # BrainHack
 A RISC CPU whose instruction set is the minimalist programming language Brainfuck. 
 
-Developed in one night for ICHack19. 
-
 Implemented in Verilog, fully synthesisable.
 Comes with python assembler.
+
+Developed in one night for ICHack19. 
+
 
 
 ## Language
