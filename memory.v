@@ -12,7 +12,7 @@ module ram (i_clock, i_enable_in, i_addr, i_data, o_data);
   
   assign o_data = ram_content[i_addr];
 
-  always @ (posedge i_clock or negedge i_clock)
+  always @ (posedge i_clock)
     if (i_enable_in)
       ram_content[i_addr] <= i_data;
 
