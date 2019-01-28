@@ -3,7 +3,6 @@
 module testbench;
   reg clock = 0;
 
-
   wire [`tape_data_width - 1 : 0]   i_tape_data;
   wire [`instr_width - 1 : 0]        i_prgmem_data;
   wire [`prgmem_addr_width - 1 : 0] i_stack_data;
@@ -23,9 +22,10 @@ module testbench;
  
   initial begin
     tape.ram_content[0] = 0;
-    prgmem.rom_content[1] = 0;
-    prgmem.rom_content[2] = 3'b110;
-    prgmem.rom_content[3] = 3'b011;
+    tape.ram_content[1] = 0;
+    prgmem.rom_content[1] = 3'b110;
+    prgmem.rom_content[2] = 3'b011;
+    prgmem.rom_content[3] = 3'b100;
     prgmem.rom_content[4] = 3'b111;
 
     $monitor("#%b, IR %b, PC %d (%b), r/f %b, SP %d (%b), TP %d (%b) z%b, SK %d (%b)", clock, bh.reg_ir.stored_data, bh.reg_pc.stored_data,bh.ctrl_pc_in, bh.fetch, bh.reg_sp.stored_data, bh.ctrl_sp_in, i_tape_data, bh.instr_tape, bh.zero, stack.ram_content[1], o_stack_in);
