@@ -19,6 +19,8 @@ module testbench;
   rom #(`prgmem_addr_width, `instr_width) prgmem (o_prgmem_addr, i_prgmem_data);
 
   brainhack bh (clock, i_tape_data, i_prgmem_data, i_stack_data, o_tape_in, o_tape_addr, o_tape_data, o_prgmem_addr, o_stack_in, o_stack_addr, o_stack_data);
+
+  wire prgend = ^bh.reg_ir.stored_data === 1'bX;
  
   initial begin
     $readmemh("tape.mem", tape.ram_content);
@@ -30,4 +32,13 @@ module testbench;
 
   always
     #2 clock = !clock;
+
+  always @ (posedge bh.ctrl_skip_loop)
+    $display("ctrl_skip_loop start, reg_skip_loop_sp = %d", o_stack_addr);
+
+  always @ (negedge bh.ctrl_skip_loop)
+    $display("ctrl_skip_loop end");
+
+  always @ (posedge prgend)
+    $finish;
 endmodule
