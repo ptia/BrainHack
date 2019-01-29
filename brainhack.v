@@ -68,7 +68,7 @@ module brainhack (i_clock, i_tape_data, i_prgmem_data, i_stack_data,
   register #(`prgmem_addr_width) reg_pc (i_clock, ctrl_pc_in, pc_in, o_prgmem_addr);
   inc #(`prgmem_addr_width) pc_inc (o_prgmem_addr, pc_inc_res);
   wire [`prgmem_addr_width - 1 : 0] pc_inc_res;
-  tri  [`prgmem_addr_width - 1 : 0] pc_in = run ? i_stack_data : pc_inc_res;
+  wire [`prgmem_addr_width - 1 : 0] pc_in = run ? i_stack_data : pc_inc_res;
   wire ctrl_pc_in =  (run   && stage0 && !ctrl_skip_loop && instr_stack && instr_dec && !zero) 
                   || (fetch && stage0);
 
