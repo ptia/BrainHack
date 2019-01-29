@@ -40,7 +40,6 @@ module brainhack (i_clock, i_tape_data, i_prgmem_data, i_stack_data,
   // SKIP LOOPS
   reg ctrl_skip_loop = 0;
   reg [`stack_addr_width : 0] reg_skip_loop_sp;
-
   always @ (posedge i_clock) begin
     if (ctrl_skip_loop) begin
       if (run && stage1 && instr_stack && instr_dec && o_stack_addr == reg_skip_loop_sp) begin
@@ -53,8 +52,6 @@ module brainhack (i_clock, i_tape_data, i_prgmem_data, i_stack_data,
     end
   end
     
-        
-
   // ZERO
   wire zero;
   assign zero = !(|i_tape_data);
