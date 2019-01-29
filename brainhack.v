@@ -42,9 +42,8 @@ module brainhack (i_clock, i_tape_data, i_prgmem_data, i_stack_data,
   reg [`stack_addr_width : 0] reg_skip_loop_sp;
   always @ (posedge i_clock) begin
     if (ctrl_skip_loop) begin
-      if (run && stage1 && instr_stack && instr_dec && o_stack_addr == reg_skip_loop_sp) begin
+      if (run && stage1 && instr_stack && instr_dec && o_stack_addr == reg_skip_loop_sp)
         ctrl_skip_loop <= 0;
-      end
     end 
     else if (run && stage1 && instr_stack && instr_inc && zero) begin
       reg_skip_loop_sp <= o_stack_addr;
