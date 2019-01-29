@@ -12,7 +12,7 @@ Developed in one night for ICHack19.
 6 instructions:
 - < > : move head left or right on tape (head ++ or --)
 - + - : increment or decrement value under head (tape[head] ++ or --)
-- [...] : loop (do {...} while (tape[head] != 0);)
+- [...] : loop (while (tape[head] != 0) { ... })
 
 ## Implementation
 - Harvard architecture
