@@ -26,8 +26,7 @@ module testbench;
     $readmemh("tape.mem", tape.ram_content);
     $readmemb("prgrom.mem", prgmem.rom_content);
 
-    $monitor("#%b.%b.%b IR %b, PC %d (%b), SP %d (%b), TP %d (%b) z%b, SK %d (%b)", bh.fetch, bh.stage1, bh.i_clock, bh.reg_ir.stored_data, bh.reg_pc.stored_data,bh.ctrl_pc_in, bh.reg_sp.stored_data, bh.ctrl_sp_in, i_tape_data, bh.instr_tape, bh.zero, stack.ram_content[1], o_stack_in);
-    #500 $finish;
+    $monitor("#%b.%b IR %b, PC %d (%b), TP @%d %d (%b) z%b, SP %d (%b), SK %d (%b)", bh.stage1, bh.i_clock, bh.reg_ir.stored_data, bh.reg_pc.stored_data, bh.ctrl_pc_in_select, bh.reg_ptr.stored_data, i_tape_data, bh.instr_tape, bh.zero, bh.reg_sp.stored_data, bh.ctrl_sp_in, stack.ram_content[1], o_stack_in);
   end
 
   always
