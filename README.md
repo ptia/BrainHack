@@ -1,7 +1,7 @@
 # BrainHack
 A **RISC CPU** whose instruction set is the minimalist programming language **Brainfuck**.
 
-Developed in one night for ICHack19.
+Developed in one night for *ICHack19*.
 Later optimised for memory requirements and **parallelism** (run & fetch at the same time).
 
 Implemented in **Verilog**, fully synthesisable.
