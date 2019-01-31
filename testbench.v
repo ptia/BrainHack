@@ -20,13 +20,13 @@ module testbench;
 
   brainhack bh (clock, i_tape_data, i_prgmem_data, i_stack_data, o_tape_in, o_tape_addr, o_tape_data, o_prgmem_addr, o_stack_in, o_stack_addr, o_stack_data);
 
-  wire prgend = ^bh.reg_ir.stored_data === 1'bX;
+  wire prgend = ^i_prgmem_data === 1'bX;
  
   initial begin
     $readmemh("tape.mem", tape.ram_content);
     $readmemb("prgrom.mem", prgmem.rom_content);
 
-    $monitor("#%b.%b IR %b, PC %d (%b), TP @%d %d (%b) z%b, SP %d (%b), SK %d (%b)", bh.stage1, bh.i_clock, bh.reg_ir.stored_data, bh.reg_pc.stored_data, bh.ctrl_pc_in_select, bh.reg_ptr.stored_data, i_tape_data, bh.instr_tape, bh.zero, bh.reg_sp.stored_data, bh.ctrl_sp_in, stack.ram_content[1], o_stack_in);
+    $monitor("#%b IR %b, PC %d (%b), TP @%d %d (%b) z%b, SP %d (%b), SK %d (%b)", clock, i_prgmem_data, bh.reg_pc.stored_data, bh.ctrl_pc_in_select, bh.reg_ptr.stored_data, i_tape_data, bh.instr_tape, bh.zero, bh.reg_sp.stored_data, bh.ctrl_sp_in, stack.ram_content[1], o_stack_in);
   end
 
   always
