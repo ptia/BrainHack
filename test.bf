@@ -10,9 +10,10 @@ now it should count down
 >
 [
   -
-  >
-    +++ 
-    [-]
+
+  > head = 2
+    +++ tape[2] = 3
+    [-] countdown on tape[2]
   <
 
   <[]> this should be skipped

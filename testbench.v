@@ -31,6 +31,9 @@ module testbench;
       "TP @%d %d (%b) z%b, ", bh.reg_ptr.stored_data, i_tape_data, bh.instr_tape, bh.zero,
       "SP %d (%b), ", bh.reg_sp.stored_data, bh.ctrl_sp_in,
       "SK %d (%b)", i_stack_data, o_stack_in);
+
+    $dumpfile("waves.vcd");
+    $dumpvars(1, bh);
   end
 
   always
