@@ -11,7 +11,7 @@ Comes with **python assembler**.
 ## Language
 6 instructions:
 - < > : move head left or right on tape (head ++ or --)
-- + - : increment or decrement value under head (tape[head] ++ or --)
+- \+ \- : increment or decrement value under head (tape[head] ++ or --)
 - [...] : loop (while (tape[head] != 0) { ... })
 
 ## Implementation
