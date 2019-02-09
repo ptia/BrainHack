@@ -10,6 +10,11 @@ now it should count down
 >
 [
   -
+  >
+    +++ 
+    [-]
+  <
+
   <[]> this should be skipped
 ]
 
