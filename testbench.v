@@ -32,7 +32,7 @@ module testbench;
       "SP %d (%b), ", bh.reg_sp.stored_data, bh.ctrl_sp_in,
       "SK %d (%b)", i_stack_data, o_stack_in);
 
-    $dumpfile("waves.vcd");
+    $dumpfile("wavedump.vcd");
     $dumpvars(1, bh);
   end
 

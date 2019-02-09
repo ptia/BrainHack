@@ -1,30 +1,35 @@
 [*]
 [*] GTKWave Analyzer v3.3.94 (w)1999-2018 BSI
-[*] Sat Feb  9 16:16:16 2019
+[*] Sat Feb  9 16:40:46 2019
 [*]
-[dumpfile] "/home/edoardo/Verilog/BrainHack/waves.vcd"
-[dumpfile_mtime] "Sat Feb  9 16:11:00 2019"
+[dumpfile] "/home/edoardo/Verilog/BrainHack/wavedump.vcd"
+[dumpfile_mtime] "Sat Feb  9 16:37:26 2019"
 [dumpfile_size] 19723
 [savefile] "/home/edoardo/Verilog/BrainHack/waveview.gtkw"
-[timestart] 0
-[size] 672 730
+[timestart] 36
+[size] 1364 612
 [pos] -1 -1
 *-4.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] testbench.
 [sst_width] 231
 [signals_width] 174
 [sst_expanded] 1
-[sst_vpaned_height] 188
+[sst_vpaned_height] 150
 @28
 testbench.bh.i_clock
 @22
 testbench.bh.o_prgmem_addr[7:0]
 @28
 testbench.bh.instr[2:0]
+testbench.bh.ctrl_skip_loop
 @200
 -
 @22
 testbench.bh.o_tape_addr[7:0]
 testbench.bh.o_tape_data[7:0]
+@200
+-
+@23
+testbench.bh.sp_data[3:0]
 [pattern_trace] 1
 [pattern_trace] 0
